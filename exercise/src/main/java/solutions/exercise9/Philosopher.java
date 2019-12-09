@@ -4,8 +4,8 @@ import java.util.stream.IntStream;
 
 public class Philosopher extends Thread{
 
-    final static int SLEEP_TIME_IN_MS = 300;
-    final static int MAX_ITERATIONS = 10;
+    final static int SLEEP_TIME_IN_MS = 1;
+    final static int MAX_ITERATIONS = 10000;
     private String name;
     private Fork leftFork;
     private Fork rightFork;
@@ -39,10 +39,26 @@ public class Philosopher extends Thread{
 
     private void eat() throws InterruptedException
     {
-        leftFork.get();
-        rightFork.get();
+        //'fix' determines if we circumvent the deadlock by following the lectures convention :-)
+        Integer number = Integer.parseInt(name.split(" ")[1]);
+        boolean fix = true;
+
+        if(number%2==0 && fix) {
+            leftFork.get();
+            rightFork.get();
+        }
+        else{
+            rightFork.get();
+            leftFork.get();
+        }
         System.out.println(name+" is eating!");
-        leftFork.layBack();
-        rightFork.layBack();
+        if(number%2==0 && fix) {
+            rightFork.layBack();
+            leftFork.layBack();
+        }
+        else{
+            leftFork.layBack();
+            rightFork.layBack();
+        }
     }
 }

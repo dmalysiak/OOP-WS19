@@ -5,10 +5,7 @@ import java.util.concurrent.Semaphore;
 public class Fork {
     Semaphore m = new Semaphore(1);
 
-    public Fork()
-    {
-        m.release();
-    }
+    public Fork(){}
 
     public void get() throws InterruptedException
     {
